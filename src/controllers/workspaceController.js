@@ -84,7 +84,7 @@ export const getWorkspaceController = async (req, res) => {
     );
     return res
       .status(StatusCodes.OK)
-      .json(successResponse(response, 'Workspace deleted successfully'));
+      .json(successResponse(response, 'Workspace feteched successfully'));
   } catch (error) {
     console.log('Get workspace controller error', error);
     if (error.statusCode) {
@@ -142,6 +142,7 @@ export const updateWorkspaceController = async (req, res) => {
 
 export const addMemberToWorkspaceController = async (req, res) => {
   try {
+    console.log("Request body: ", req.body.memberId, req.body.role)
     const response = await addMemberToWorkspaceService(
       req.params.workspaceId,
       req.body.memberId,
