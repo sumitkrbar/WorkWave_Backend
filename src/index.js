@@ -3,7 +3,7 @@ import express from 'express';
 import { createServer } from 'http';
 import { StatusCodes } from 'http-status-codes';
 import { Server } from 'socket.io';
-
+import messageHandlers from './controllers/messageSocketController.js';
 import connectDB from './config/dbConfig.js';
 import { PORT } from './config/serverConfig.js';
 import apiRouter from './routes/apiRoutes.js';
@@ -19,16 +19,17 @@ app.get('/ping', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected', socket.id);
+  // console.log('a user connected', socket.id);
 
-  setTimeout(() => {
-    socket.emit('message', 'this is a message from the server');
-  }, 3000);
-  socket.on('messageFromClient', (data) => {
-    console.log('Message from client', data);
+  // setTimeout(() => {
+  //   socket.emit('message', 'this is a message from the server');
+  // }, 3000);
+  // socket.on('messageFromClient', (data) => {
+  //   console.log('Message from client', data);
 
-    io.emit('new message', data.toUpperCase());
-  });
+  //   io.emit('new message', data.toUpperCase());
+  // });
+  messageHandlers(io, socket);
 });
 
 server.listen(PORT, async () => {
