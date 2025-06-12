@@ -3,9 +3,11 @@ import express from 'express';
 import { createServer } from 'http';
 import { StatusCodes } from 'http-status-codes';
 import { Server } from 'socket.io';
-import messageHandlers from './controllers/messageSocketController.js';
+
 import connectDB from './config/dbConfig.js';
 import { PORT } from './config/serverConfig.js';
+import ChannelSocketHandlers from './controllers/channelSocketController.js';
+import MessageSocketHandlers from './controllers/messageSocketController.js';
 import apiRouter from './routes/apiRoutes.js';
 
 const app = express();
@@ -29,7 +31,8 @@ io.on('connection', (socket) => {
 
   //   io.emit('new message', data.toUpperCase());
   // });
-  messageHandlers(io, socket);
+  MessageSocketHandlers(io, socket);
+  ChannelSocketHandlers(io, socket);
 });
 
 server.listen(PORT, async () => {
